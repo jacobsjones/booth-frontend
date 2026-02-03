@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import Hero3D from "@/components/Hero3D";
 import SearchBar from "@/components/SearchBar";
 import StudioCard from "@/components/StudioCard";
 
@@ -99,43 +100,75 @@ const featuredStudios = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero / Search Section - Airbnb Style */}
-      <section className="relative h-[600px] flex items-center justify-center bg-gradient-to-br from-violet-900 via-purple-900 to-indigo-900">
-        <div className="absolute inset-0 bg-black/20" />
+    <div className="min-h-screen">
+      {/* Hero Section with 3D Background */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0f]">
+        {/* 3D Background */}
+        <Hero3D />
         
+        {/* Content */}
         <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4"
+            transition={{ duration: 0.8 }}
           >
-            Find your perfect studio
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-lg text-white/80 mb-8"
-          >
-            Professional music studios for your next session
-          </motion.p>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-8"
+            >
+              <span className="flex h-2 w-2 rounded-full bg-violet-500 animate-pulse" />
+              <span className="text-sm text-violet-300">Now booking in 50+ cities</span>
+            </motion.div>
 
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400 bg-clip-text text-transparent">
+                Book Studio Time.
+              </span>
+              <br />
+              <span className="text-white">Create Your Sound.</span>
+            </h1>
+
+            <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
+              Find and book professional music studios near you. 
+              From home setups to world-class facilities, find your perfect sound.
+            </p>
+
+            <SearchBar />
+          </motion.div>
+
+          {/* Stats */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="mt-16 flex flex-wrap justify-center gap-8 sm:gap-16"
           >
-            <SearchBar />
+            {[
+              { value: "500+", label: "Studios" },
+              { value: "10K+", label: "Artists" },
+              { value: "50K+", label: "Sessions" },
+              { value: "4.9", label: "Rating" },
+            ].map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+                  {stat.value}
+                </div>
+                <div className="text-sm text-slate-500 mt-1">{stat.label}</div>
+              </div>
+            ))}
           </motion.div>
         </div>
+
+        {/* Gradient overlay at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
       </section>
 
       {/* Featured Studios - Airbnb Grid Style */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white">
+        <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-semibold text-gray-900">Featured Studios</h2>
           <Link
             href="/search"

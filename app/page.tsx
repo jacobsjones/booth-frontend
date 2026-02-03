@@ -12,7 +12,8 @@ import {
   ArrowRight,
   Music,
   Users,
-  Clock
+  Clock,
+  Search
 } from "lucide-react";
 import Hero3D from "@/components/Hero3D";
 import SearchBar from "@/components/SearchBar";

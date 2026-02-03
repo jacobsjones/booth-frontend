@@ -112,13 +112,13 @@ function HeadphonesIcon({ position }: { position: [number, number, number] }) {
           <meshStandardMaterial color="#ec4899" metalness={0.7} roughness={0.3} />
         </mesh>
         {/* Left earcup */}
-        <mesh position={[-0.45, -0.25, 0]}>
-          <cylinderGeometry args={[0.2, 0.2, 0.15, 16]} rotation={[Math.PI / 2, 0, 0]} />
+        <mesh position={[-0.45, -0.25, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.2, 0.2, 0.15, 16]} />
           <meshStandardMaterial color="#1e1e2e" metalness={0.8} roughness={0.2} />
         </mesh>
         {/* Right earcup */}
-        <mesh position={[0.45, -0.25, 0]}>
-          <cylinderGeometry args={[0.2, 0.2, 0.15, 16]} rotation={[Math.PI / 2, 0, 0]} />
+        <mesh position={[0.45, -0.25, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.2, 0.2, 0.15, 16]} />
           <meshStandardMaterial color="#1e1e2e" metalness={0.8} roughness={0.2} />
         </mesh>
       </group>

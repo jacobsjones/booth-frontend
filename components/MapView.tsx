@@ -45,9 +45,15 @@ export default function MapView({
     if (!mapContainer.current) return;
     if (map.current) return;
 
+    // Debug logging
+    console.log("Mapbox Token:", MAPBOX_TOKEN ? "Token exists" : "No token");
+    console.log("Token length:", MAPBOX_TOKEN?.length);
+    console.log("Token starts with:", MAPBOX_TOKEN?.substring(0, 10));
+
     // Check for valid token
     if (!MAPBOX_TOKEN || MAPBOX_TOKEN === "pk.placeholder") {
       setError("Mapbox token not configured. Please add NEXT_PUBLIC_MAPBOX_TOKEN to your environment variables.");
+      console.error("Mapbox token is missing or placeholder");
       return;
     }
 

@@ -39,33 +39,50 @@ export default function MapView({
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const [popupStudio, setPopupStudio] = useState<Studio | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!mapContainer.current) return;
     if (map.current) return;
 
-    // Initialize map
-    mapboxgl.accessToken = MAPBOX_TOKEN;
-    
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/dark-v11",
-      center: [-74.006, 40.7128], // NYC default
-      zoom: 11,
-      attributionControl: false,
-    });
+    // Check for valid token
+    if (!MAPBOX_TOKEN || MAPBOX_TOKEN === "pk.placeholder") {
+      setError("Mapbox token not configured. Please add NEXT_PUBLIC_MAPBOX_TOKEN to your environment variables.");
+      return;
+    }
 
-    map.current.on("load", () => {
-      setMapLoaded(true);
-    });
+    try {
+      // Initialize map
+      mapboxgl.accessToken = MAPBOX_TOKEN;
+      
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/dark-v11",
+        center: [-74.006, 40.7128], // NYC default
+        zoom: 11,
+        attributionControl: false,
+      });
 
-    // Add navigation control
-    map.current.addControl(
-      new mapboxgl.NavigationControl({
-        showCompass: false,
-      }),
-      "bottom-right"
-    );
+      map.current.on("load", () => {
+        setMapLoaded(true);
+      });
+
+      map.current.on("error", (e) => {
+        console.error("Mapbox error:", e);
+        setError("Failed to load map. Please check your Mapbox token.");
+      });
+
+      // Add navigation control
+      map.current.addControl(
+        new mapboxgl.NavigationControl({
+          showCompass: false,
+        }),
+        "bottom-right"
+      );
+    } catch (err) {
+      console.error("Error initializing map:", err);
+      setError("Failed to initialize map. Please check your Mapbox configuration.");
+    }
 
     return () => {
       map.current?.remove();
@@ -134,6 +151,17 @@ export default function MapView({
 
   return (
     <div className="relative w-full h-full">
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-900/90 z-20">
+          <div className="max-w-md p-6 text-center">
+            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
+              <MapPin className="w-6 h-6 text-red-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Map Error</h3>
+            <p className="text-slate-400 text-sm">{error}</p>
+          </div>
+        </div>
+      )}
       <div ref={mapContainer} className="absolute inset-0" />
       
       {/* Popup */}

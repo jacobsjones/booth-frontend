@@ -207,11 +207,12 @@ function Particles() {
 
 export default function Hero3D() {
   return (
-    <div className="absolute inset-0 -z-10">
+    <div className="absolute inset-0" style={{ zIndex: 0 }}>
       <Canvas
         camera={{ position: [0, 0, 6], fov: 60 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
+        style={{ width: '100%', height: '100%' }}
       >
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} color="#8b5cf6" />
